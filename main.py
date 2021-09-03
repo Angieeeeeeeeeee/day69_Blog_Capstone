@@ -12,8 +12,14 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, cur
 from forms import CreatePostForm, CreateRegisterForm, CreateLogInForm, CreateCommentForm
 from flask_gravatar import Gravatar
 from functools import wraps
+import os
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+
+if os.environ.get("SECRET_KEY") is None:
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///blog.db")
+
 ckeditor = CKEditor(app)
 Bootstrap(app)
 Base = declarative_base()
