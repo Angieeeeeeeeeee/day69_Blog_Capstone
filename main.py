@@ -12,7 +12,6 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, cur
 from forms import CreatePostForm, CreateRegisterForm, CreateLogInForm, CreateCommentForm
 from flask_gravatar import Gravatar
 from functools import wraps
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 ckeditor = CKEditor(app)
@@ -87,6 +86,7 @@ db.create_all()
 # Password 123456
 # Name example
 
+
 def admin_role_required(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
@@ -106,6 +106,9 @@ def load_user(user_id):
 def get_all_posts():
     posts = BlogPost.query.all()
     return render_template("index.html", all_posts=posts)
+
+# if you are first user become admin user
+# admin user can add edit and delete post
 
 
 @app.route('/register', methods=["POST", "GET"])
